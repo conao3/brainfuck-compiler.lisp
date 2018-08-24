@@ -16,7 +16,7 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.lbc.3744114298)
 
-(defvar idx 0)
+(defvar idx 1)
 
 (defun emit-header ()
   (format t "define i32 @main() {
@@ -70,6 +70,9 @@ Usage:
     (with-open-file (stream file)
                   (let (char)
                     (loop :while (setq char (read-char stream nil))
-                          :do (princ char))))
+                          :do
+                          (case char
+                            (#\+ (emit-add 1))
+                            (#\. (emit-put))))))
     (emit-footer)))
 ;;; vim: set ft=lisp lisp:
