@@ -33,6 +33,13 @@ exec ros -Q -- $0 "$@"
   (format t "  store i8 %~D, i8* %~D, align 1~%" (+ idx 2) idx)
   (incf idx 3))
 
+(defun emit-put ()
+  (format t "  %~D = load i8*, i8** %ptr, align 8~%" idx)
+  (format t "  %~D = load i8, i8* %~D, align 1~%" (+ idx 1) idx)
+  (format t "  %~D = sext i8 %~D to i32~%" (+ idx 2) (+ idx 1))
+  (format t "  %~D = call i32 @putchar(i32 %~D)~%" (+ idx 3) (+ idx 2))
+  (incf idx 4))
+
 (defun emit-footer ()
   (format t "  %~D = load i8*, i8** %data, align 8~%" idx)
   (format t "  call void @free(i8* %~D)~%" idx)
