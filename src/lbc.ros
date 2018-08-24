@@ -16,15 +16,23 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.lbc.3744114298)
 
-(defun main (&rest argv)
-  (error "Common Lisp Brainf*ck compiler.
+(defun argv-check (argv)
+  (assert (>= (length argv) 1)
+          (argv)
+          "Common Lisp Brainf*ck compiler.
 
 Usage:
   lbc.ros test.bf")
-  
-  (let ((file (car argv)))
-    (princ file)
-    (with-open-file (stream "../readme.org")
+
+  (let ((file (pop argv)))
+    (assert (probe-file file)
+          (argv)
+          (format nil "~S is not found" file))
+    file))
+
+(defun main (&rest argv)
+  (let ((file (argv-check argv)))
+    (with-open-file (stream file)
                   (let (char)
                     (loop :while (setq char (read-char stream nil))
                           :do (princ char))))))
