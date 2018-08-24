@@ -16,6 +16,8 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.lbc.3744114298)
 
+(defvar idx 0)
+
 (defun emit-header ()
   (format t "define i32 @main() {
   %data = alloca i8*, align 8
@@ -23,6 +25,16 @@ exec ros -Q -- $0 "$@"
   %data_ptr = call i8* @calloc(i64 30000, i64 1)
   store i8* %data_ptr, i8** %data, align 8
   store i8* %data_ptr, i8** %ptr, align 8~%"))
+
+(defun emit-footer ()
+  (format t "  %~D = load i8*, i8** %data, align 8~%" idx)
+  (format t "  call void @free(i8* %~D)~%" idx)
+  (format t "  ret i32 0
+}
+
+declare i8* @calloc(i64, i64)
+declare void @free(i8*)
+declare i32 @putchar(i32)~%"))
 
 (defun argv-check (argv)
   (assert (>= (length argv) 1)
@@ -44,5 +56,6 @@ Usage:
     (with-open-file (stream file)
                   (let (char)
                     (loop :while (setq char (read-char stream nil))
-                          :do (princ char))))))
+                          :do (princ char))))
+    (emit-footer)))
 ;;; vim: set ft=lisp lisp:
