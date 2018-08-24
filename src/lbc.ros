@@ -26,6 +26,13 @@ exec ros -Q -- $0 "$@"
   store i8* %data_ptr, i8** %data, align 8
   store i8* %data_ptr, i8** %ptr, align 8~%"))
 
+(defun emit-add (diff)
+  (format t "  %~D = load i8*, i8** %ptr, align 8~%" idx)
+  (format t "  %~D = load i8, i8* %~D, align 1~%" (+ idx 1) idx)
+  (format t "  %~D = add i8 %~D, ~D~%" (+ idx 2) (+ idx 1) diff)
+  (format t "  store i8 %~D, i8* %~D, align 1~%" (+ idx 2) idx)
+  (incf idx 3))
+
 (defun emit-footer ()
   (format t "  %~D = load i8*, i8** %data, align 8~%" idx)
   (format t "  call void @free(i8* %~D)~%" idx)
