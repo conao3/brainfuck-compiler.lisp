@@ -46,6 +46,20 @@ exec ros -Q -- $0 "$@"
   (format t "  %~D = call i32 @putchar(i32 %~D)~%" (+ idx 3) (+ idx 2))
   (incf idx 4))
 
+(defun emit-while-start (while-index)
+  (format t "  br label %while_cond~D~%" while-index)
+  (format t "while_cond~D:~%" while-index)
+  (format t "  %~D = load i8*, i8** %ptr, align 8~%" idx)
+  (format t "  %~D = load i8, i8* %~D, align 1~%" (+ idx 1) idx)
+  (format t "  %~D = icmp ne i8 %~D, 0~%" (+ idx 2) (+ idx 1))
+  (format t "  br i1 %~D, label %while_body~D, label %while_end~D~%" (+ idx 2) while-index while-index)
+  (format t "while_body~D:~%" while-index)
+  (incf idx 3))
+
+(defun emit-while-end (while-index)
+  (format t "  br label %while_cond~D~%" while-index)
+  (format t "while_end~D:~%" while-index))
+
 (defun emit-footer ()
   (format t "  %~D = load i8*, i8** %data, align 8~%" idx)
   (format t "  call void @free(i8* %~D)~%" idx)
@@ -71,7 +85,9 @@ Usage:
     file))
 
 (defun main (&rest argv)
-  (let ((file (argv-check argv)))
+  (let ((file (argv-check argv))
+        (while-index 0)
+        (while-indices '()))
     (emit-header)
     (with-open-file (stream file)
                   (let (char)
@@ -82,6 +98,12 @@ Usage:
                             (#\< (emit-move-ptr -1))
                             (#\+ (emit-add 1))
                             (#\- (emit-add -1))
-                            (#\. (emit-put))))))
+                            (#\. (emit-put))
+                            (#\[ (progn
+                                   (push while-index while-indices)
+                                   (emit-while-start while-index)
+                                   (incf while-index)))
+                            (#\] (let ((ind (pop while-indices)))
+                                   (emit-while-end ind)))))))
     (emit-footer)))
 ;;; vim: set ft=lisp lisp:
