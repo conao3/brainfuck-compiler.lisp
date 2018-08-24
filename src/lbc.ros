@@ -16,6 +16,14 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.lbc.3744114298)
 
+(defun emit-header ()
+  (format t "define i32 @main() {
+  %data = alloca i8*, align 8
+  %ptr = alloca i8*, align 8
+  %data_ptr = call i8* @calloc(i64 30000, i64 1)
+  store i8* %data_ptr, i8** %data, align 8
+  store i8* %data_ptr, i8** %ptr, align 8~%"))
+
 (defun argv-check (argv)
   (assert (>= (length argv) 1)
           (argv)
@@ -32,6 +40,7 @@ Usage:
 
 (defun main (&rest argv)
   (let ((file (argv-check argv)))
+    (emit-header)
     (with-open-file (stream file)
                   (let (char)
                     (loop :while (setq char (read-char stream nil))
