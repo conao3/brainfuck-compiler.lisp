@@ -18,5 +18,9 @@ exec ros -Q -- $0 "$@"
 
 (defun main (&rest argv)
   (declare (ignorable argv))
-  (princ (alexandria:read-file-into-string "../readme.org")))
+  (with-open-file (stream "../readme.org")
+                  (let (char)
+                    (loop :while (setq char (read-char stream nil))
+                          :do (princ char))))
+  )
 ;;; vim: set ft=lisp lisp:
