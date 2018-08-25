@@ -90,20 +90,20 @@ Usage:
         (while-indices '()))
     (emit-header)
     (with-open-file (stream file)
-                  (let (char)
-                    (loop :while (setq char (read-char stream nil))
-                          :do
-                          (case char
-                            (#\> (emit-move-ptr 1))
-                            (#\< (emit-move-ptr -1))
-                            (#\+ (emit-add 1))
-                            (#\- (emit-add -1))
-                            (#\. (emit-put))
-                            (#\[ (progn
-                                   (push while-index while-indices)
-                                   (emit-while-start while-index)
-                                   (incf while-index)))
-                            (#\] (let ((ind (pop while-indices)))
-                                   (emit-while-end ind)))))))
+                    (let (char)
+                      (loop :while (setq char (read-char stream nil))
+                            :do
+                            (case char
+                              (#\> (emit-move-ptr 1))
+                              (#\< (emit-move-ptr -1))
+                              (#\+ (emit-add 1))
+                              (#\- (emit-add -1))
+                              (#\. (emit-put))
+                              (#\[ (progn
+                                     (push while-index while-indices)
+                                     (emit-while-start while-index)
+                                     (incf while-index)))
+                              (#\] (let ((ind (pop while-indices)))
+                                     (emit-while-end ind)))))))
     (emit-footer)))
 ;;; vim: set ft=lisp lisp:
