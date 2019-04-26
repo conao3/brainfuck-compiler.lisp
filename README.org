@@ -1,7 +1,7 @@
 #+author: conao3
 #+date: <2018-10-25 Thu>
 
-[[https://github.com/conao3/brainfuck-compiler.lisp][https://raw.githubusercontent.com/conao3/files/master/header/png/brainfuck-compiler.lisp.png]]
+[[https://github.com/conao3/brainfuck-compiler.lisp][https://raw.githubusercontent.com/conao3/files/master/blob/headers/png/brainfuck-compiler.lisp.png]]
 [[https://github.com/conao3/brainfuck-compiler.lisp/blob/master/LICENSE][https://img.shields.io/github/license/conao3/brainfuck-compiler.lisp.svg?style=flat-square]]
 [[https://github.com/conao3/brainfuck-compiler.lisp/releases][https://img.shields.io/github/tag/conao3/brainfuck-compiler.lisp.svg?style=flat-square]]
 [[https://travis-ci.org/conao3/brainfuck-compiler.lisp][https://img.shields.io/travis/conao3/brainfuck-compiler.lisp/master.svg?style=flat-square]]
@@ -11,7 +11,7 @@
 [[https://join.slack.com/t/conao3-support/shared_invite/enQtNTg2MTY0MjkzOTU0LTFjOTdhOTFiNTM2NmY5YTE5MTNlYzNiOTE2MTZlZWZkNDEzZmRhN2E0NjkwMWViZTZiYjA4MDUxYTUzNDZiNjY][https://img.shields.io/badge/chat-on_slack-blue.svg?logo=slack&style=flat-square]]
 
 * Table of Contents
-- [[#background][Background]]
+- [[#description][Description]]
 - [[#install][Install]]
 - [[#usage][Usage]]
 - [[#information][Information]]
@@ -20,10 +20,10 @@
   - [[#contribute][Contribute]]
   - [[#license][License]]
   - [[#author][Author]]
-  - [[#contributor][Contributor]]
+  - [[#contributors][Contributors]]
 
-* Background
-LBC is Lisp Brainf*ck Compiler.
+* Description
+~LBC~ is Lisp Brainf*ck Compiler.
 
 return llvm code (.ll)
 
@@ -65,5 +65,5 @@ Feel free to send PR!
 ** Author
 - Naoya Yamashita ([[https://github.com/conao3][conao3]])
 
-** Contributor
+** Contributors
 - Not yet... Now send PR and add your name!!
